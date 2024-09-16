@@ -1,14 +1,16 @@
 import connectDB from "@/config/database"
 import Campaign from "@/models/Campaign"
 
-// GET /api/campaigns
-export const GET = async (request) => {
+// GET /api/campaigns/:id
+export const GET = async (request, { params }) => {
     try{
         await connectDB()
 
-        const campaigns = await Campaign.find({})
+        const campaign = await Campaign.findById(params.id)
+
+        if(!campaign) return new Response('Campaign Not Found', {status:404})
         
-        return new Response(JSON.stringify(campaigns), {
+        return new Response(JSON.stringify(campaign), {
             status: 200,
         })
     } catch (error) {
