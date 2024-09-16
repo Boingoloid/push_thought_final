@@ -5,6 +5,7 @@ import { fetchCampaign } from "@/utils/requests"
 import CampaignHeaderImage from "@/components/CampaignHeaderImage"
 import CampaignDetails from "@/components/CampaignDetails"
 import Link from "next/link"
+import Spinner from "@/components/Spinner"
 import { FaArrowLeft } from "react-icons/fa"
   
 const CampaignPage = () => {
@@ -45,6 +46,7 @@ const CampaignPage = () => {
 
   return (
     <>
+      {loading && <Spinner loading={loading} />}
       {!loading && campaign && (<>
         <CampaignHeaderImage image={ campaign.images[0]} />
         <section>
