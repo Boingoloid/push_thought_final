@@ -1,6 +1,6 @@
 import connectDB from '@/config/database'
 import GoogleProvider from 'next-auth/providers/google'
-import User from '@/models/User';
+import User from '@/models/User'; // <----- this is the problem
 
 
 
