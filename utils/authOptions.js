@@ -1,29 +1,31 @@
 import GoogleProvider from 'next-auth/providers/google'
 
 export const authOptions = {
-    providers: [{
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        authorization: {
-            params: {
-              prompt: "consent",
-              access_type: "offline",
-              response_type: "code"
-            }
-          },
-    }],
+    providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                  prompt: "consent",
+                  access_type: "offline",
+                  response_type: "code"
+                }
+            }            
+        })
+    ],
     callbacks: {
         // Invoked on successful sign in
         async signIn({profile}) {
-            // connect to db
-            // check if user exists
-            // if not then add user to database
-            // return true to allow sign in
+        // 1. Connect to databasee
+        // 2. Check if user exists
+        // 3. If not, then add user to database
+        // 4. Return true to allow sign in
         }, //Modifies the session object
         async session({session}) {
-            // Get user from database
-            // Assign the user id to the session
-            // return session
+            // 1. Ger user from database
+            // 2. Assign the user id to the session
+            // 3. return session
         }
     }
 }

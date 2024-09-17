@@ -9,7 +9,7 @@ export const metadata = {
     keyword: 'politics, cause, social change, petition',
 }
 
-const layout = ({children}) => {
+const MainLayout = ({children}) => {
   return (
     <AuthProvider>
       <html lang='en'>
@@ -23,4 +23,4 @@ const layout = ({children}) => {
   )
 }
 
-export default layout
+export default MainLayout
