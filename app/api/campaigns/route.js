@@ -1,5 +1,7 @@
 import connectDB from "@/config/database"
 import Campaign from "@/models/Campaign"
+import { getSessionUser } from "@/utils/getSessionUser"
+
 
 // GET /api/campaigns
 export const GET = async (request) => {
@@ -19,6 +21,16 @@ export const GET = async (request) => {
 
 export const POST = async (request) => {
     try {
+        await connectDB()
+
+        const sessionUser = await getSessionUser()
+
+        if (!sessionUser || !sessionUser.userId) {
+            return new Response('User ID is required', { status: 401 })
+        }
+
+        const { userId } = sessionUser
+
         const formData = await request.formData()
 
         // Access all values from amenities and images
@@ -50,14 +62,18 @@ export const POST = async (request) => {
                 email: formData.get('seller_info.email'),
                 phone: formData.get('seller_info.phone'),
             },
-            images
+            owner: userId,
+            // images
         }
 
-            console.log(campaignData)
+        const newCampaign = new Campaign(campaignData)
+        await newCampaign.save()
 
-        return new Response(JSON.stringify({ message: 'Success' }), {
-            status: 200,
-        })
+        return Response.redirect(`${process.env.NEXTAUTH_URL}/campaigns/${newCampaign._id}`)
+
+        // return new Response(JSON.stringify({ message: 'Success' }), {
+        //     status: 200,
+        // })
     } catch (error) {
         return new Response('Failed to add campaign', { status: 500 })
     }
