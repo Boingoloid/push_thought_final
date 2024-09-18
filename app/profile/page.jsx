@@ -43,8 +43,33 @@ const ProfilePage = () => {
         }
     }, [session])
 
-    const handleDeleteCampaign = () => {}
+    const handleDeleteCampaign = async (campaignId) => {
+      const confirmed = window.confirm('Are you sure you want to delete this property?')
 
+      if(!confirmed) return
+
+      try {
+        const res = await fetch(`/api/campaigns/${campaignId}`, { method: 'DELETE'})
+
+        if(res.status === 200){
+          // Remove campaign from state
+          const updatedCampaigns = campaigns.filter((campaign) => campaign._id !== campaignId)
+
+          setCampaigns(updatedCampaigns)
+
+          alert('Campaign Deleted')
+        } else {
+          alert('Failed to delete property')
+        }
+
+      } catch (error) {
+        console.log(error)
+        alert('Failed to delete property')
+      }
+    }
+
+
+    
   return (
     // <!-- Profile Section -->
     <section className="bg-blue-50">
