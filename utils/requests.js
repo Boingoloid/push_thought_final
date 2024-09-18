@@ -9,7 +9,7 @@ async function fetchCampaigns(){
             return []
           }
 
-        const res = await fetch(`${apiDomain}/campaigns`)
+        const res = await fetch(`${apiDomain}/campaigns`, { cache:'no-store' })
       
         if (!res.ok) {
             throw new Error('Failed to fetch data')

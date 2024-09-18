@@ -20,7 +20,7 @@ const getRateDisplay = () => {
   return (
     <div className="rounded-xl shadow-md relative">
     <Image
-      src={`/images/campaigns/${campaign.images[0]}`}
+      src={campaign.images[0]}
       alt=""
       height={0}
       width={0}
