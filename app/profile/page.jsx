@@ -34,7 +34,6 @@ const ProfilePage = () => {
             } finally {
                 setLoading(false)
             }
-
         }
 
         // Fetch user campaigns when session is available
@@ -43,10 +42,35 @@ const ProfilePage = () => {
         }
     }, [session])
 
-    const handleDeleteCampaign = () => {}
+    const handleDeleteCampaign = async (campaignId) => {
+        const confirmed = window.confirm('Are you sure you want to delete this campaign?')
+
+        if (!confirmed) return
+
+        try {
+            const res = await fetch(`/api/campaigns/${campaignId}`, { method: 'DELETE' })
+
+            if(res.status === 200) {
+                // Remove the campaign from state
+                const updatedCampaigns = campaigns.filter((campaign) => campaign._id !== campaignId)
+
+                setCampaigns(updatedCampaigns)
+
+                alert('Campaign Deleted')
+            } else {
+                alert('Failed to delete campaign')
+            }
+            
+        } catch (error) {
+            console.log(error)
+            alert('Failed to delete campaign')
+        }
+
+    }
+
+
 
   return (
-    // <!-- Profile Section -->
     <section className="bg-blue-50">
       <div className="container m-auto py-24">
         <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
