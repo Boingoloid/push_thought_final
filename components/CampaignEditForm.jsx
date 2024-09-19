@@ -46,9 +46,19 @@ const CampaignEditForm = () => {
         const fetchCampaignData = async () => {
             try {
                 const campaignData = await fetchCampaign(id)
-                console.log(campaignData)
+
+                // Check rates for null, if so then make empty string
+                if (campaignData && campaignData.rates){
+                    const defaultRates = {...campaignData.rates}
+                    for (const rate in defaultRates) {
+                        if(defaultRates[rate] === null) {
+                            defaultRates[rate] = ''
+                        }
+                    }
+                    campaignData.rates = defaultRates
+                }
+
                 setFields(campaignData)
-                
             } catch (error) {
                 console.error(error)
             } finally {
